@@ -1,9 +1,11 @@
-import json
-import pandas as pd
-
-import streamlit as st
-from connection import Connection
+# default imports
 import requests
+import json # only used for debugging
+# import secrets to access the API key
+from streamlit import secrets
+# import connection class directly
+from connection import Connection
+
 
 def find_connection(origin, destination, departure_date, departure_time):
     url = 'http://transport.opendata.ch/v1/connections'
@@ -29,7 +31,7 @@ def find_connection(origin, destination, departure_date, departure_time):
     return Connection(x, y, departure, arrival, transport_means)
 
 def find_restaurants(x, y, open_at, radius):
-    api_key = st.secrets["API_KEY"]
+    api_key = secrets["API_KEY"]
     url = 'https://api.yelp.com/v3/businesses/search'
     
     headers = {"Authorization": "Bearer " + api_key}
