@@ -35,7 +35,7 @@ After retrieving the key, we need to store it in a streamlit secrets file. This 
 API_KEY = "YOUR_API_KEY_HERE"
 ```
 
-The [utils.py](utils.py) file retrieves this key automatically from the secrets file to query the Yelp API (see lines 5 and 34). 
+The [app.py](app.py) file retrieves this key automatically from the secrets file on startup which is then passed to the `find_top10_restaurants` function to query the Yelp API (see lines 60 and 110). This way, the API key is not exposed in the code and the `find_top10_restaurants` is agnostic of the streamlit implementation (does not have to use `st.secrets`).
 
 ### Run the Application
 

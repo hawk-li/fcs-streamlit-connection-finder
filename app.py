@@ -7,7 +7,7 @@ import traceback
 from utils import find_connection, find_top10_restaurants_for_trip
 
 # Main function for the streamlit app
-def main():
+def main(api_key):
     """
     Main function that sets up the Train Connection and Restaurant Finder app.
     Allows users to input their journey details, find train connections, and search for restaurants near their destination.
@@ -57,7 +57,7 @@ def main():
         if st.button("Find Restaurants"):
             try:
                 # Find restaurants and store them in session state
-                st.session_state.restaurants = find_top10_restaurants_for_trip(st.session_state.con, radius)
+                st.session_state.restaurants = find_top10_restaurants_for_trip(api_key, st.session_state.con, radius)
             except Exception as e:
                 st.error(f"An error occurred: {e}")
                 st.error(traceback.format_exc())
@@ -106,4 +106,5 @@ def display_restaurants(restaurants):
     st.map(df_map, size=1)
 
 if __name__ == "__main__":
-    main()
+    # retrieve API key on startup
+    main(st.secrets["API_KEY"])

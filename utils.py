@@ -1,8 +1,6 @@
 # default imports
 import requests
 import json # only used for debugging
-# import secrets to access the API key
-from streamlit import secrets
 # import connection class directly
 from connection import Connection
 
@@ -30,8 +28,7 @@ def find_connection(origin, destination, departure_date, departure_time):
 
     return Connection(x, y, departure, arrival, transport_means)
 
-def find_restaurants(x, y, open_at, radius):
-    api_key = secrets["API_KEY"]
+def find_restaurants(api_key, x, y, open_at, radius):
     url = 'https://api.yelp.com/v3/businesses/search'
     
     headers = {"Authorization": "Bearer " + api_key}
@@ -62,10 +59,10 @@ def find_restaurants(x, y, open_at, radius):
         restaurants.append((name, rating, num_reviews, categories, latitude, longitude))
     return restaurants
 
-def find_top10_restaurants_for_trip(con, radius):
+def find_top10_restaurants_for_trip(api_key, con, radius):
     limit = 10
 
-    rests= find_restaurants(con.destination_x, con.destination_y, con.get_unix_arrival_time(), radius)
+    rests= find_restaurants(api_key, con.destination_x, con.destination_y, con.get_unix_arrival_time(), radius)
     rests_sorted = sorted(rests, key=lambda tup: tup[1], reverse=True)
     
     return rests_sorted[:limit]
