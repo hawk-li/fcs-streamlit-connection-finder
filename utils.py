@@ -43,6 +43,9 @@ def find_restaurants(x, y, open_at, radius):
     params['categories'] = "restaurants"
     
     r = requests.get(url, params=params, headers=headers)
+
+    # check if the request was successful
+    r.raise_for_status()
     #print(json.dumps(r.json(), ensure_ascii=False, indent=4))
    
     for b in r.json()['businesses']:
